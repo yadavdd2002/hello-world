@@ -17,7 +17,7 @@ pipeline {
         }
         stage ('Check maven version') {
             when {
-                expression { ${params.maven_version_stage} == true }
+                expression { params.maven_version_stage == true }
             }
             steps {
                 sh 'mvn --version'
