@@ -1,4 +1,4 @@
-def folder-list = ["app1", "app2", "app3"]
+def list = ["app1", "app2", "app3"]
 
 pipeline {
     agent any
