@@ -1,0 +1,25 @@
+def folder-list = ["app1", "app2", "app3"]
+pipeline {
+    agent any
+    tools {
+        maven 'maven-3.6.3' 
+    }
+    stages {
+        stage ('Generate package for app3') {
+            steps {
+                script {
+                    for(int i=0; i < list.size(); i++) {
+                        stage(list[i]){
+                            when { changeset "${list[i]}/*"}
+                            steps {
+                                dir (list[i]) {
+                                    sh 'mvn clean package'
+                                }
+                            }    
+                        }
+                    }
+                }
+            }
+        }
+    }
+}   
