@@ -13,9 +13,9 @@ pipeline {
                 script {
                     env.FOLDER_NAME = checkFileChanges(list)
                     println(env.FOLDER_NAME)
-                }
-                dir (env.FOLDER_NAME) {
-                    sh 'mvn clean package'
+                    dir (env.FOLDER_NAME) {
+                        sh 'mvn clean package'
+                    }
                 }
             }
         }
