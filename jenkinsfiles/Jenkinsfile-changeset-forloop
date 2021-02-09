@@ -21,7 +21,8 @@ pipeline {
         stage ('Generate package for app') {
             steps {
                 script {
-                    checkFileChanges(list)
+                    def folder_name = checkFileChanges(list)
+                    println(folder_name)
                 }
             }
         }
