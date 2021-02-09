@@ -11,9 +11,9 @@ pipeline {
         stage ('Generate package for app') {
             steps {
                 script {
-                    env.FOLDER_NAME = checkFileChanges(list)
-                    println(env.FOLDER_NAME)
-                    dir (env.FOLDER_NAME) {
+                    def FOLDER_NAME = checkFileChanges(list)
+                    println(FOLDER_NAME)
+                    dir (FOLDER_NAME) {
                         sh 'mvn clean package'
                     }
                 }
