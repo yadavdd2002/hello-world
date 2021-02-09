@@ -8,16 +8,6 @@ pipeline {
         maven 'maven-3.6.3' 
     }
     stages {
-        stage ('checkout') {
-            steps {
-                dir('app') {
-                    checkout([
-                        $class: 'GitSCM',
-                        userRemoteConfigs: [[ url: 'https://github.com/vigneshsweekaran/hello-world' ]]
-                    ])
-                }
-            }
-        }
         stage ('Generate package for app') {
             steps {
                 script {
