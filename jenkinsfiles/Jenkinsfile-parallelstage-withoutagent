@@ -19,6 +19,7 @@ pipeline {
                 stage ('Generate package for app1') {
                     steps {
                         dir ('app1') {
+                            sh 'sleep 120' 
                             sh 'mvn clean package'
                         }
                     }
@@ -26,6 +27,7 @@ pipeline {
                 stage ('Generate package for app2') {
                     steps {
                         dir ('app2') {
+                            sh 'sleep 120'
                             sh 'mvn clean package'
                         }
                     }
@@ -33,6 +35,7 @@ pipeline {
                 stage ('Generate package for app3') {
                     steps {
                         dir ('app3') {
+                            sh 'sleep 120'
                             sh 'mvn clean package'
                         }
                     }
