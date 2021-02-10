@@ -11,7 +11,7 @@ pipeline {
         stage ('Check maven version') {
             steps {
                 sh 'mvn --version'
-                println(RELEASE_DATE)
+                println(TAG)
             }
         }
         stage ('Generating Package') {
