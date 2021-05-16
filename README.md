@@ -9,4 +9,4 @@ git clone -b clean https://github.com/vigneshsweekaran/hello-world.git
 ```
 mvn clean package
 ```
-### War file is generated in webapp/target/webapps.war
+### War file is generated in webapp/target/webapps.war 
