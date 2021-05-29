@@ -16,17 +16,17 @@ pipeline {
         }
       }
     }
-	stage ('Docker Push') {
-      steps {
-        script {
-				docker.withRegistry(credentialsId: 'dockercredentials', url: 'https://registry.hub.docker.com/') {
-				   docker.image("ddyadav/hello-world:${env.BUILD_ID}").push()
-				   docker.image("ddyadav/hello-world:${env.BUILD_ID}").push("latest")
-				   
-				}
-		}
-      }
-	}
+
+	stage('Pushing Docker Image to DockerHub') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockercredentials') {
+                        docker.image("ddyadav/hello-world:${env.BUILD_ID}").push()
+                        docker.image("ddyadav/hello-world:${env.BUILD_ID}").push("latest")
+                    }
+                }
+            }
+        }	
     stage ('Deploy') {
       steps {
 		sh 'docker stop hello-world | true'
