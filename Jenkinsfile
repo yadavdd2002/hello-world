@@ -29,9 +29,9 @@ pipeline {
         }	
     stage ('Deploy') {
       steps {
-		sh 'docker stop hello-world | true'
-		sh 'docker rm hello-world | true'
-		sh 'docker run -d --name hello-world -p 8089:80 ddyadav/hello-world:${env.BUILD_ID}'
+		sh "docker stop hello-world | true"
+		sh "docker rm hello-world | true"
+		sh "docker run -d --name hello-world -p 8089:80 ddyadav/hello-world:${env.BUILD_ID}"
       }
     }	
   }
