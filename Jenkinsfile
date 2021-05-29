@@ -16,7 +16,7 @@ pipeline {
         }
       }
     }
-	stage ('Docker Build') {
+	stage ('Docker Push') {
       steps {
         script {
 				withDockerRegistry(credentialsId: 'dockercredentials', url: 'https://registry.hub.docker.com/') {
