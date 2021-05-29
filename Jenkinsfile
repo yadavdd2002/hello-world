@@ -16,17 +16,17 @@ pipeline {
         }
       }
     }
-	stage ('Docker Push') {
+	stage ('Docker Build') {
       steps {
         script {
-				withDockerRegistry(credentialsId: 'dockercredentials', url: 'https://registry.hub.docker.com/') {
+				docker.withRegistry(credentialsId: 'dockercredentials', url: 'https://registry.hub.docker.com/') {
 				   docker.image("ddyadav/hello-world:${env.BUILD_ID}").push()
 				   docker.image("ddyadav/hello-world:${env.BUILD_ID}").push("latest")
 				   
 				}
 		}
       }
-    }
+	}
     stage ('Deploy') {
       steps {
 		sh 'docker stop hello-world | true'
