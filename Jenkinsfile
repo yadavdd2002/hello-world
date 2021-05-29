@@ -16,13 +16,23 @@ pipeline {
         }
       }
     }
-    stage ('Deploy') {
+	stage ('Docker Build') {
       steps {
-		sh "docker stop hello-world | true"
-		sh "docker rm hello-world | true"
-		sh "docker run -d --name hello-world -p 8089:8080 ddyadav/hello-world:${env.BUILD_ID}"
+        script {
+				withDockerRegistry(credentialsId: 'dockercredentials', url: 'https://registry.hub.docker.com/') {
+				   docker.image("ddyadav/hello-world:${env.BUILD_ID}").push()
+				   docker.image("ddyadav/hello-world:${env.BUILD_ID}").push("latest")
+				   
+				}
+		}
       }
     }
+    stage ('Deploy') {
+      steps {
+		sh 'docker stop hello-world | true'
+		sh 'docker rm hello-world | true'
+		sh 'docker run -d --name hello-world -p 8089:80 ddyadav/hello-world:${env.BUILD_ID}'
+      }
+    }	
   }
 }
-
