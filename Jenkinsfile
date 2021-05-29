@@ -1,7 +1,7 @@
 pipeline {
   agent any
   tools {
-    maven 'maven-3.6.3' 
+    maven 'maven-3.6.3'
   }
   stages {
     stage ('Build') {
@@ -9,12 +9,20 @@ pipeline {
         sh 'mvn clean package'
       }
     }
-    stage ('Deploy') {
+    stage ('Docker Build') {
       steps {
         script {
-          deploy adapters: [tomcat9(credentialsId: 'tomcat_credential', path: '', url: 'http://dayal-test.letspractice.tk:8081')], contextPath: '/pipeline', onFailure: false, war: 'webapp/target/*.war' 
+                docker.build("ddyadav/hello-world:${env.BUILD_ID}")
         }
+      }
+    }
+    stage ('Deploy') {
+      steps {
+		sh 'docker stop hello-world | true'
+		sh 'docker rm hello-world | true'
+		sh 'docker run -d --name hello-world -p 8089:80 ddyadav/hello-world:${env.BUILD_ID}'
       }
     }
   }
 }
+
