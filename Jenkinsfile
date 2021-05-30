@@ -3,6 +3,11 @@ pipeline {
   tools {
     maven 'maven-3.6.3'
   }
+  environment {
+      DATE = new Date().format('yy.M')
+      TAG = "${DATE}.${BUILD_NUMBER}"
+      scannerHome = tool 'sonarqube_scanner'
+  }
   stages {
     stage ('Build') {
       steps {
@@ -10,9 +15,6 @@ pipeline {
       }
     }
     stage('SonarQube analysis') {
-        environment {
-          scannerHome = tool 'sonarqube_scanner'
-        }
         steps {
               withSonarQubeEnv('sonarqube') {
                     sh "${scannerHome}/bin/sonar-scanner"
@@ -22,7 +24,7 @@ pipeline {
     stage ('Docker Build') {
       steps {
         script {
-                docker.build("ddyadav/hello-world:${env.BUILD_ID}")
+                docker.build("ddyadav/hello-world:${TAG}")
         }
       }
     }
@@ -31,8 +33,8 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockercredentials') {
-                        docker.image("ddyadav/hello-world:${env.BUILD_ID}").push()
-                        docker.image("ddyadav/hello-world:${env.BUILD_ID}").push("latest")
+                        docker.image("ddyadav/hello-world:${TAG}").push()
+                        docker.image("ddyadav/hello-world:${TAG}").push("latest")
                     }
                 }
             }
@@ -41,7 +43,7 @@ pipeline {
       steps {
 		sh "docker stop hello-world | true"
 		sh "docker rm hello-world | true"
-		sh "docker run -d --name hello-world -p 8089:80 ddyadav/hello-world:${env.BUILD_ID}"
+		sh "docker run -d --name hello-world -p 8089:80 ddyadav/hello-world:${TAG}"
       }
     }	
   }
