@@ -9,6 +9,16 @@ pipeline {
         sh 'mvn clean package'
       }
     }
+    stage('SonarQube analysis') {
+        environment {
+          scannerHome = tool 'sonarqube_scanner'
+        }
+        steps {
+              withSonarQubeEnv('sonarqube') {
+                    sh "${scannerHome}/bin/sonar-scanner"
+                }
+            }
+        }
     stage ('Docker Build') {
       steps {
         script {
