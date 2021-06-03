@@ -21,6 +21,11 @@ pipeline {
                 }
             }
         }
+    stage("Quality gate") {
+            steps {
+                waitForQualityGate abortPipeline: true
+            }
+        }
     stage ('Docker Build') {
       steps {
         script {
